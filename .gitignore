@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# Datasource local storage ignored files
+*.local
+
 # testing
 /coverage
 
