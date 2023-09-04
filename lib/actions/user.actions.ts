@@ -5,12 +5,12 @@ import { connectToDB } from "../mongoose";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 interface Params {
-  userId: string, 
-  username: string, 
-  name: string, 
-  bio: string, 
-  image: string, 
-  path: string, 
+  userId: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+  path: string;
 }
 
 export async function updateUser({
@@ -24,22 +24,36 @@ export async function updateUser({
   connectToDB();
   try {
     await User.findOneAndUpdate(
-        { id: userId },
-        {
+      { id: userId },
+      {
         username: username.toLowerCase(),
         name,
         bio,
         image,
         onboarded: true,
-        },
-        {
+      },
+      {
         upsert: true,
-        }
+      }
     );
     if (path === "/profile/edit") {
-        revalidatePath(path);
+      revalidatePath(path);
     }
-    } catch (error: any) {
-        throw new Error(`Failed tp cerate / update user: ${error.message}`)
-    }
+  } catch (error: any) {
+    throw new Error(`Failed tp cerate / update user: ${error.message}`);
+  }
+}
+
+export async function fetchUser(userId: string) {
+  try {
+    connectToDB();
+    return await User.findOne({ id: userId });
+    // .populate({
+    //   path: 'communities',
+    //   model: Community
+    // })
+  } catch (error: any) {
+    console.error("Error fetching user threads:", error);
+    throw error;
+  }
 }
