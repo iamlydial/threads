@@ -6,8 +6,7 @@ import { connectToDB } from "../mongoose";
 
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
-import { Children } from "react";
-import postcss from "postcss/lib/postcss";
+
 
 interface Params {
   text: string;
