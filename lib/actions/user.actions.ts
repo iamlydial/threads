@@ -1,8 +1,9 @@
 "use server";
+
 import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+// import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 interface Params {
   userId: string;
@@ -40,7 +41,7 @@ export async function updateUser({
       revalidatePath(path);
     }
   } catch (error: any) {
-    throw new Error(`Failed tp cerate / update user: ${error.message}`);
+    throw new Error(`Failed to create/update user: ${error.message}`);
   }
 }
 

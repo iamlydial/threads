@@ -15,6 +15,7 @@ interface Params {
   communityId: string | null;
   path: string;
 }
+
 export async function createThread({
   text,
   author,
@@ -31,12 +32,12 @@ export async function createThread({
 
     //update user model
     await User.findByIdAndUpdate(author, {
-      $push: { threads: createThread._id },
+      $push: { threads: createdThread._id },
     });
 
     revalidatePath(path);
   } catch (error: any) {
-    throw new Error(`error creating thread`);
+    throw new Error(`Failed to create thread: ${error.message}`);
   }
 }
 
@@ -124,8 +125,8 @@ export async function addCommentToThread(
       throw new Error("Thread not found");
     }
 
-     // Create the new comment thread
-     const commentThread = new Thread({
+    // Create the new comment thread
+    const commentThread = new Thread({
       text: commentText,
       author: userId,
       parentId: threadId, // Set the parentId to the original thread's ID
