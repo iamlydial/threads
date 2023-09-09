@@ -7,7 +7,6 @@ import { connectToDB } from "../mongoose";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
-
 interface Params {
   text: string;
   author: string;
